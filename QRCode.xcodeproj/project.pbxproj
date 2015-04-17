@@ -14,6 +14,7 @@
 		8EE6366C1AE0EEE1002C51FF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EE6366B1AE0EEE1002C51FF /* Images.xcassets */; };
 		8EE6366F1AE0EEE1002C51FF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8EE6366D1AE0EEE1002C51FF /* LaunchScreen.xib */; };
 		8EE6367B1AE0EEE1002C51FF /* QRCodeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EE6367A1AE0EEE1002C51FF /* QRCodeTests.m */; };
+		8EE636861AE0F1C1002C51FF /* UIView+MGLConstaint.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EE636851AE0F1C1002C51FF /* UIView+MGLConstaint.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,8 @@
 		8EE636741AE0EEE1002C51FF /* QRCodeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QRCodeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EE636791AE0EEE1002C51FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8EE6367A1AE0EEE1002C51FF /* QRCodeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QRCodeTests.m; sourceTree = "<group>"; };
+		8EE636841AE0F1C1002C51FF /* UIView+MGLConstaint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MGLConstaint.h"; sourceTree = "<group>"; };
+		8EE636851AE0F1C1002C51FF /* UIView+MGLConstaint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MGLConstaint.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +91,8 @@
 				8EE636681AE0EEE1002C51FF /* Main.storyboard */,
 				8EE6366B1AE0EEE1002C51FF /* Images.xcassets */,
 				8EE6366D1AE0EEE1002C51FF /* LaunchScreen.xib */,
+				8EE636841AE0F1C1002C51FF /* UIView+MGLConstaint.h */,
+				8EE636851AE0F1C1002C51FF /* UIView+MGLConstaint.m */,
 				8EE6365E1AE0EEE1002C51FF /* Supporting Files */,
 			);
 			path = QRCode;
@@ -222,6 +227,7 @@
 				8EE636671AE0EEE1002C51FF /* ViewController.m in Sources */,
 				8EE636641AE0EEE1002C51FF /* AppDelegate.m in Sources */,
 				8EE636611AE0EEE1002C51FF /* main.m in Sources */,
+				8EE636861AE0F1C1002C51FF /* UIView+MGLConstaint.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,6 +354,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = QRCode/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -358,6 +365,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = QRCode/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
