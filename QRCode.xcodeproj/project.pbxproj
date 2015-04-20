@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8E9AF7FF1AE49A3D009A7777 /* MGLScannerQRView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E9AF7FE1AE49A3D009A7777 /* MGLScannerQRView.m */; };
+		8E9AF8021AE4D9A2009A7777 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E9AF8011AE4D9A2009A7777 /* HomeViewController.m */; };
 		8EE636611AE0EEE1002C51FF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EE636601AE0EEE1002C51FF /* main.m */; };
 		8EE636641AE0EEE1002C51FF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EE636631AE0EEE1002C51FF /* AppDelegate.m */; };
 		8EE636671AE0EEE1002C51FF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EE636661AE0EEE1002C51FF /* ViewController.m */; };
@@ -28,6 +30,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8E9AF7FD1AE49A3D009A7777 /* MGLScannerQRView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGLScannerQRView.h; sourceTree = "<group>"; };
+		8E9AF7FE1AE49A3D009A7777 /* MGLScannerQRView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGLScannerQRView.m; sourceTree = "<group>"; };
+		8E9AF8001AE4D9A2009A7777 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
+		8E9AF8011AE4D9A2009A7777 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		8EE6365B1AE0EEE1002C51FF /* QRCode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QRCode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EE6365F1AE0EEE1002C51FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8EE636601AE0EEE1002C51FF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -86,8 +92,12 @@
 			children = (
 				8EE636621AE0EEE1002C51FF /* AppDelegate.h */,
 				8EE636631AE0EEE1002C51FF /* AppDelegate.m */,
+				8E9AF8001AE4D9A2009A7777 /* HomeViewController.h */,
+				8E9AF8011AE4D9A2009A7777 /* HomeViewController.m */,
 				8EE636651AE0EEE1002C51FF /* ViewController.h */,
 				8EE636661AE0EEE1002C51FF /* ViewController.m */,
+				8E9AF7FD1AE49A3D009A7777 /* MGLScannerQRView.h */,
+				8E9AF7FE1AE49A3D009A7777 /* MGLScannerQRView.m */,
 				8EE636681AE0EEE1002C51FF /* Main.storyboard */,
 				8EE6366B1AE0EEE1002C51FF /* Images.xcassets */,
 				8EE6366D1AE0EEE1002C51FF /* LaunchScreen.xib */,
@@ -224,10 +234,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E9AF7FF1AE49A3D009A7777 /* MGLScannerQRView.m in Sources */,
 				8EE636671AE0EEE1002C51FF /* ViewController.m in Sources */,
 				8EE636641AE0EEE1002C51FF /* AppDelegate.m in Sources */,
 				8EE636611AE0EEE1002C51FF /* main.m in Sources */,
 				8EE636861AE0F1C1002C51FF /* UIView+MGLConstaint.m in Sources */,
+				8E9AF8021AE4D9A2009A7777 /* HomeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,6 +436,7 @@
 				8EE636801AE0EEE1002C51FF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8EE636811AE0EEE1002C51FF /* Build configuration list for PBXNativeTarget "QRCodeTests" */ = {
 			isa = XCConfigurationList;
@@ -432,6 +445,7 @@
 				8EE636831AE0EEE1002C51FF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

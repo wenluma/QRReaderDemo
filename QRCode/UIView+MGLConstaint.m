@@ -7,10 +7,11 @@
 //
 
 #import "UIView+MGLConstaint.h"
+static const BOOL usingLayout = YES;
 
 @implementation UIView (MGLConstaint)
 - (void)startLayout:(BOOL)start{
-    self.translatesAutoresizingMaskIntoConstraints = start;
+    self.translatesAutoresizingMaskIntoConstraints = !start;
 }
 
 - (void)setLeft:(CGFloat)left{
@@ -36,7 +37,12 @@
     [self setTop:edge.top];
     [self setBottom:edge.bottom];
 }
-
+- (void)setFrameLayout:(CGRect)frame{
+    [self setLeft:CGRectGetMinX(frame)];
+    [self setTop:CGRectGetMinY(frame)];
+    [self setWidth:CGRectGetWidth(frame)];
+    [self setHeight:CGRectGetHeight(frame)];
+}
 - (void)setHeight:(CGFloat)height{
     [self setAttribute:NSLayoutAttributeHeight withConstant:height];
 }
@@ -171,6 +177,7 @@
 - (NSLayoutConstraint *)checkSuperViewContaint:(NSLayoutAttribute)firstAttribute
                                     secondItem:(UIView *)secondItem
                                secondAttribute:(NSLayoutAttribute)secondAttribute{
+    [self startLayout:usingLayout];
     NSLayoutConstraint * __block existConstaint = nil;
     BOOL __block isAdd = NO;
     if(secondItem){

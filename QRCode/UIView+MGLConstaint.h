@@ -12,6 +12,7 @@
 // default to self to super view
 
 - (void)setEdge:(UIEdgeInsets)edge;
+- (void)setFrameLayout:(CGRect)frame;
 
 - (void)startLayout:(BOOL)start;
 - (void)setLeft:(CGFloat)left;

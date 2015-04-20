@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "UIView+MGLConstaint.h"
+#import "MGLScannerQRView.h"
 
 #import <AVFoundation/AVFoundation.h>
 
@@ -15,8 +16,10 @@
 
 @property (strong, nonatomic) AVCaptureSession *session;
 @property (strong, nonatomic) AVCaptureVideoPreviewLayer *previewLayer;
+@property (strong, nonatomic) dispatch_queue_t outputQueue;
 
 @property (weak, nonatomic) UIView *videoView;
+@property (weak, nonatomic) MGLScannerQRView *anchorView;
 @property (weak, nonatomic) UILabel *showLab;
 @property (copy, nonatomic) NSString *QRCode;
 @end
@@ -43,25 +46,34 @@
         if([session canAddOutput:output]){
             [session addOutput:output];
             
-            dispatch_queue_t outputQueue = dispatch_queue_create("avoutput", DISPATCH_QUEUE_SERIAL);
-            [output setMetadataObjectsDelegate:self queue:outputQueue];
+            _outputQueue = dispatch_queue_create("avoutput", DISPATCH_QUEUE_SERIAL);
+            [output setMetadataObjectsDelegate:self queue:_outputQueue];
             [output setMetadataObjectTypes:@[AVMetadataObjectTypeQRCode]];
         }
-        
-        AVCaptureVideoPreviewLayer *previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:_session];
-
-        _previewLayer = previewLayer;
-        [_previewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
-        [_videoView.layer addSublayer:_previewLayer];
-        
+        [self addPreLayer];
         [_session startRunning];
     }
 }
+
 -(void)stopReading{
-    [_session stopRunning];
-    _session = nil;
-    [_previewLayer removeFromSuperlayer];
-    _previewLayer = nil;
+    [self cleanUp];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)cleanUp{
+    if (_session) {
+        [_session stopRunning];
+        _session = nil;
+        [_previewLayer removeFromSuperlayer];
+        _previewLayer = nil;
+        _QR(self.QRCode);
+        _outputQueue = nil;
+        [_anchorView stopAnimation];
+    }
+}
+
+- (void)dealloc{
+    [self cleanUp];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -86,11 +98,10 @@
     videoView.translatesAutoresizingMaskIntoConstraints = NO;
     videoView.backgroundColor = [UIColor darkGrayColor];
     
-    [videoView setCenterY:-40];
-    [videoView setCenterX:0];
-    [videoView sameWidthHeight:200];
+    [videoView setEdge:UIEdgeInsetsMake(0, 0, 0, 0)];
+    self.videoView = videoView;
     
-    _videoView = videoView;
+    [self addMyAnchorView];
     
     UILabel *lab = [[UILabel alloc] initWithFrame:CGRectZero];
     [self.view addSubview:lab];
@@ -98,6 +109,25 @@
     [lab setTop:20];
     [lab setCenterX:0];
     _showLab = lab;
+}
+- (void)addPreLayer{
+    AVCaptureVideoPreviewLayer *previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:_session];
+    _previewLayer = previewLayer;
+    [_previewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+    [_videoView.layer addSublayer:_previewLayer];
+    [_videoView.layer insertSublayer:_previewLayer atIndex:0];
+}
+- (void)addMyAnchorView{
+    MGLScannerQRView *anchorView = [[MGLScannerQRView alloc] initWithDesc:@"将二维码置框内" withScanner:YES];
+    [self.videoView addSubview:anchorView];
+    anchorView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [anchorView sameWidthHeight:200];
+    [anchorView setCenterY:-40];
+    [anchorView setCenterX:0];
+    
+    _anchorView = anchorView;
+    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
