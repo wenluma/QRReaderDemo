@@ -22,6 +22,7 @@
     if (self) {
         [self initStatus];
         self.desc = desc;
+        self.isScanner = scanner;
     }
     return self;
 }
@@ -36,7 +37,7 @@
 - (void)initStatus{
     [self addMyDescLab];
     [self addMyGradientlayer];
-    self.clipsToBounds = YES;
+    self.layer.masksToBounds = YES;
     _isScanner = YES;
 }
 - (void)setDesc:(NSString *)desc{
@@ -49,7 +50,7 @@
     _descLab = descLab;
     _descLab.textColor = [UIColor whiteColor];
     [_descLab setCenterX:0];
-    [_descLab setBottom:-40];
+    [_descLab setCenterY:0];
 }
 - (void)addMyGradientlayer{
     CAGradientLayer *gradientlayer = [CAGradientLayer layer];
@@ -57,20 +58,21 @@
 //    gradientlayer.backgroundColor = [[UIColor greenColor] CGColor];
     _gradientlayer = gradientlayer;
     NSMutableArray *mutAry = [[NSMutableArray alloc] initWithCapacity:1];
-    for (int i=100; i>0; i=i-5) {
+    for (int i=80; i>0; i=i-4) {
         [mutAry addObject:[self gradientColor:i/255.f]];
     }
     _gradientlayer.colors = [NSArray arrayWithArray:mutAry];
     _gradientlayer.type = @"axial";
     _gradientlayer.startPoint = CGPointMake(0, 1);
     _gradientlayer.endPoint = CGPointZero;
+    [self.layer insertSublayer:_gradientlayer atIndex:0];
     
 }
 - (id)gradientColor:(CGFloat)alpha{
     return (__bridge id)[[[UIColor greenColor] colorWithAlphaComponent:alpha] CGColor];
 }
 - (void)initGradientLayer{
-    _gradientlayer.frame = CGRectMake(0, -CGRectGetHeight(self.bounds)*0.2, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds)*0.2);
+    _gradientlayer.frame = CGRectMake(0, -CGRectGetHeight(self.bounds)*0.1, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds)*0.1);
 }
 - (void)performAnimation {
 
