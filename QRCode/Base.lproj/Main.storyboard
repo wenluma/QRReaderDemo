@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -59,10 +60,11 @@
                                     <segue destination="vXZ-lx-hvc" kind="custom" id="BAd-aJ-me1"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W6s-MB-TPQ">
-                                <rect key="frame" x="274" y="208" width="49" height="24"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W6s-MB-TPQ">
+                                <rect key="frame" x="26" y="208" width="548" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="42" id="QFc-YW-EI6"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="300" id="kL1-tI-aOd"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -70,6 +72,7 @@
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="QFc-YW-EI6"/>
+                                        <exclude reference="kL1-tI-aOd"/>
                                     </mask>
                                 </variation>
                             </label>
@@ -77,8 +80,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="W6s-MB-TPQ" firstAttribute="top" secondItem="dbV-PU-Uaf" secondAttribute="bottom" constant="147" id="1pa-MV-zpC"/>
-                            <constraint firstAttribute="centerX" secondItem="W6s-MB-TPQ" secondAttribute="centerX" constant="2" id="BRy-Tl-GSb"/>
                             <constraint firstItem="66k-c9-qlC" firstAttribute="top" secondItem="W6s-MB-TPQ" secondAttribute="bottom" constant="53" id="KPA-PN-HJx"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="W6s-MB-TPQ" secondAttribute="trailing" constant="10" id="aoP-Sc-o9h"/>
+                            <constraint firstItem="W6s-MB-TPQ" firstAttribute="leading" secondItem="7Sd-Kr-LjY" secondAttribute="leadingMargin" constant="10" id="d6o-D5-9ul"/>
                             <constraint firstAttribute="centerY" secondItem="66k-c9-qlC" secondAttribute="centerY" id="lyj-Da-Mic"/>
                             <constraint firstItem="W6s-MB-TPQ" firstAttribute="leading" secondItem="66k-c9-qlC" secondAttribute="leading" id="yEU-Qf-s2F"/>
                             <constraint firstAttribute="centerX" secondItem="66k-c9-qlC" secondAttribute="centerX" id="zCT-OK-uZB"/>

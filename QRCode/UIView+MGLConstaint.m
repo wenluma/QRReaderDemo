@@ -135,7 +135,7 @@ static const BOOL usingLayout = YES;
 
 - (void)setSuperEdgeType:(NSLayoutAttribute)attribute constant:(CGFloat)constant{
     NSAssert(self.superview, @"请添加到superview");
-    NSAssert(!self.translatesAutoresizingMaskIntoConstraints,@"should set  translatesAutoresizingMaskIntoConstraints = NO");
+//    NSAssert(!self.translatesAutoresizingMaskIntoConstraints,@"should set  translatesAutoresizingMaskIntoConstraints = NO");
     switch (attribute) {
         case NSLayoutAttributeLeft:
         case NSLayoutAttributeRight:

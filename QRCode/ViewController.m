@@ -4,11 +4,12 @@
 //
 //  Created by kaxiaoer on 15/4/17.
 //  Copyright (c) 2015年 miaogaoliang. All rights reserved.
-//
+//  ZBarReaderController, 识别二维码
 
 #import "ViewController.h"
 #import "UIView+MGLConstaint.h"
 #import "MGLScannerQRView.h"
+
 
 #import <AVFoundation/AVFoundation.h>
 

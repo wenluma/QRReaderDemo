@@ -8,6 +8,8 @@
 
 #import "HomeViewController.h"
 #import "ViewController.h"
+#import "DetectQRStillImage.h"
+
 
 @interface HomeViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *showMessage;
@@ -23,6 +25,7 @@
     _QRCode = ^(NSString *info){
         lab.text = info;
     };
+    [DetectQRStillImage dectorSourceImage:[UIImage imageNamed:@"qr"]];
 }
 
 - (void)didReceiveMemoryWarning {
