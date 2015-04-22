@@ -24,6 +24,8 @@
     lab.numberOfLines = 0;
     _QRCode = ^(NSString *info){
         lab.text = info;
+        NSURL *url = [NSURL URLWithString:@"http://211.95.3.194:11113/webpage/webpage/aa.do?token=%@&random=%@"];
+        
     };
     [DetectQRStillImage dectorSourceImage:[UIImage imageNamed:@"qr"]];
 }
