@@ -7,7 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface MGLScannerQR : NSObject
-
+@property (strong, nonatomic) void(^QRMessage)(NSString *message);
+- (void)adjustLayerWithFrame:(CGRect)frame;
+- (instancetype)initStartReadingOnView:(UIView *)view;
 @end
