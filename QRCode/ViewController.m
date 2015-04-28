@@ -9,16 +9,12 @@
 #import "ViewController.h"
 #import "UIView+MGLConstaint.h"
 #import "MGLScannerQRView.h"
-
+#import "MGLScannerQR.h"
 
 #import <AVFoundation/AVFoundation.h>
 
-@interface ViewController ()<AVCaptureMetadataOutputObjectsDelegate>
-
-@property (strong, nonatomic) AVCaptureSession *session;
-@property (strong, nonatomic) AVCaptureVideoPreviewLayer *previewLayer;
-@property (strong, nonatomic) dispatch_queue_t outputQueue;
-
+@interface ViewController ()
+@property (strong, nonatomic) MGLScannerQR *scanner;
 @property (weak, nonatomic) UIView *videoView;
 @property (weak, nonatomic) MGLScannerQRView *anchorView;
 @property (weak, nonatomic) UILabel *showLab;
@@ -27,66 +23,23 @@
 
 @implementation ViewController
 
-- (void)startReading{
-//    获取设备
-    AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-//    建立输入源
-    NSError * __autoreleasing err = nil;
-    AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:device error:&err];
-    if (err) {
-        NSLog(@"%@", [err localizedDescription]);
-        NSLog(@"建立输入源，失败");
-    }else{
-//        建立程序桥梁，session:input,output
-        AVCaptureSession *session = [[AVCaptureSession alloc] init];
-        _session = session;
-        if([session canAddInput:input]){
-            [session addInput:input];
-        }
-        AVCaptureMetadataOutput *output = [[AVCaptureMetadataOutput alloc] init];
-        if([session canAddOutput:output]){
-            [session addOutput:output];
-            
-            _outputQueue = dispatch_queue_create("avoutput", DISPATCH_QUEUE_SERIAL);
-            [output setMetadataObjectsDelegate:self queue:_outputQueue];
-            [output setMetadataObjectTypes:@[AVMetadataObjectTypeQRCode]];
-        }
-        [self addPreLayer];
-        [_session startRunning];
-    }
-}
-
--(void)stopReading{
-    [self cleanUp];
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)cleanUp{
-    if (_session) {
-        [_session stopRunning];
-        _session = nil;
-        [_previewLayer removeFromSuperlayer];
-        _previewLayer = nil;
-        _QR(self.QRCode);
-        _outputQueue = nil;
-        [_anchorView stopAnimation];
-    }
-}
-
-- (void)dealloc{
-    [self cleanUp];
-}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    
-
     [self creatVideoView];
-    [self startReading];
+    self.scanner = [[MGLScannerQR alloc] initStartReadingOnView:self.videoView];
+    ViewController * __weak weakSelf = self;
+    _scanner.QRMessage = ^(NSString *message){
+        [weakSelf finishedScanner:message];
+    };
+}
+- (void)finishedScanner:(NSString *)message{
+    _QR(message);
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 // when use layoutcontraint  can  use viewDidLayoutSubviews to place layer.frame
 - (void)viewDidLayoutSubviews{
-    _previewLayer.frame = _videoView.bounds;
+    [_scanner adjustLayerWithFrame:self.videoView.bounds];
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -111,13 +64,7 @@
     [lab setCenterX:0];
     _showLab = lab;
 }
-- (void)addPreLayer{
-    AVCaptureVideoPreviewLayer *previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:_session];
-    _previewLayer = previewLayer;
-    [_previewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
-    [_videoView.layer addSublayer:_previewLayer];
-    [_videoView.layer insertSublayer:_previewLayer atIndex:0];
-}
+
 - (void)addMyAnchorView{
     MGLScannerQRView *anchorView = [[MGLScannerQRView alloc] initWithDesc:@"将二维码置框内" withScanner:YES];
     [self.videoView addSubview:anchorView];
@@ -128,24 +75,9 @@
     [anchorView setCenterX:0];
     
     _anchorView = anchorView;
-    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
-- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection{
-    if (metadataObjects.count > 0) {
-        AVMetadataMachineReadableCodeObject *rco = metadataObjects[0];
-        if ([[rco type] isEqualToString:AVMetadataObjectTypeQRCode]) {
-//            [_lblStatus performSelectorOnMainThread:@selector(setText:) withObject:[metadataObj stringValue] waitUntilDone:NO];
-//            [_bbitemStart performSelectorOnMainThread:@selector(setTitle:) withObject:@"Start!" waitUntilDone:NO];
-//            _isReading = NO;
-            
-            self.QRCode = [rco stringValue];
-            [_showLab performSelector:@selector(setText:) onThread:[NSThread mainThread] withObject:self.QRCode  waitUntilDone:NO];
-            [self performSelectorOnMainThread:@selector(stopReading) withObject:nil waitUntilDone:NO];
-        }
-    }
-}
 @end
