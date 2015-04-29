@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface QRViewController : UIViewController
 @property (strong, nonatomic) void(^QR)(NSString *);
 @end
 

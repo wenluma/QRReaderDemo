@@ -11,6 +11,6 @@
 
 @interface MGLScannerQR : NSObject
 @property (strong, nonatomic) void(^QRMessage)(NSString *message);
-- (void)adjustLayerWithFrame:(CGRect)frame;
+- (void)adjustLayerWithFrame:(CGRect)frame clearFrame:(CGRect)clearframe;
 - (instancetype)initStartReadingOnView:(UIView *)view;
 @end

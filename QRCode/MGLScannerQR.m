@@ -29,7 +29,7 @@
 - (instancetype)initStartReadingOnView:(UIView *)view{
     self = [super init];
     if (self) {
-        if([[[UIDevice currentDevice] systemVersion] intValue] < 9.0){
+        if([[[UIDevice currentDevice] systemVersion] intValue] < 7.0){
             self.capture = [[ZXCapture alloc] init];
             self.capture.camera = self.capture.back;
             self.capture.focusMode = AVCaptureFocusModeContinuousAutoFocus;
@@ -42,6 +42,15 @@
         }else{
             //    获取设备
             AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+            NSError * __autoreleasing lockErr;
+            [device lockForConfiguration:&lockErr];
+            if ([device isFocusModeSupported:AVCaptureFocusModeAutoFocus]) {
+                device.focusMode = AVCaptureFocusModeAutoFocus;
+            }
+            if ([device isFocusPointOfInterestSupported]){
+                device.focusPointOfInterest = CGPointMake(0.5, 0.5);
+            }
+            [device unlockForConfiguration];
             //    建立输入源
             NSError * __autoreleasing err = nil;
             AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:device error:&err];
@@ -49,6 +58,7 @@
                 NSLog(@"%@", [err localizedDescription]);
                 NSLog(@"建立输入源，失败");
             }else{
+                
                 //        建立程序桥梁，session:input,output
                 AVCaptureSession *session = [[AVCaptureSession alloc] init];
                 _session = session;
@@ -67,13 +77,39 @@
                 [_session startRunning];
             }
         }
+       
     }
+    
     return self;
 }
 
-- (void)adjustLayerWithFrame:(CGRect)frame{
+- (void)adjustLayerWithFrame:(CGRect)frame clearFrame:(CGRect)clearframe{
+    if (CGRectEqualToRect(frame, CGRectZero) || CGRectEqualToRect(clearframe, CGRectZero)) {
+        return;
+    }
     _previewLayer.frame = frame;
     self.capture.layer.frame = frame;
+    
+    CGFloat x1 = frame.origin.x;
+    CGFloat x2 = clearframe.origin.x;
+    CGFloat widht1 = frame.size.width;
+    CGFloat height1 = frame.size.height;
+    
+    CGFloat y1 = frame.origin.y;
+    CGFloat y2 = clearframe.origin.y;
+    CGFloat width2 = clearframe.size.width;
+    
+    CAShapeLayer *mask = [CAShapeLayer layer];
+    CGMutablePathRef path = CGPathCreateMutable();
+    CGPathAddRect(path, NULL, CGRectMake(x1, y1, widht1, y2));
+    CGPathAddRect(path, NULL, CGRectMake(x1, y1, x2-x1, height1));
+    CGPathAddRect(path, NULL, CGRectMake(CGRectGetMaxX(clearframe), y1, widht1-width2-x2, height1));
+    CGPathAddRect(path, NULL, CGRectMake(x1, CGRectGetMaxY(clearframe), widht1, height1 - CGRectGetMaxY(clearframe)));
+    mask.frame = frame;
+    mask.path = path;
+
+    [mask setFillColor:[[[UIColor blackColor]  colorWithAlphaComponent:0.4]CGColor]];
+    [_previewLayer addSublayer:mask];
 }
 -(void)stopReading{
     [self cleanUp];
@@ -83,8 +119,9 @@
     if (_session) {
         [_session stopRunning];
         _session = nil;
-        [_previewLayer removeFromSuperlayer];
-        _previewLayer = nil;
+        [_previewLayer removeAllAnimations];
+//        [_previewLayer removeFromSuperlayer];
+//        _previewLayer = nil;
         _outputQueue = nil;
     }
     if (_capture) {
@@ -101,8 +138,9 @@
     if (metadataObjects.count > 0) {
         AVMetadataMachineReadableCodeObject *rco = metadataObjects[0];
         if ([[rco type] isEqualToString:AVMetadataObjectTypeQRCode]) {
-            [self performSelectorOnMainThread:@selector(sendMessage:) withObject:[rco stringValue] waitUntilDone:NO];
             [self performSelectorOnMainThread:@selector(stopReading) withObject:nil waitUntilDone:NO];
+            [self performSelectorOnMainThread:@selector(sendMessage:) withObject:[rco stringValue] waitUntilDone:NO];
+
         }
     }
 }

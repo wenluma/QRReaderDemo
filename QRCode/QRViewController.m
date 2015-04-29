@@ -6,14 +6,14 @@
 //  Copyright (c) 2015年 miaogaoliang. All rights reserved.
 //  ZBarReaderController, 识别二维码
 
-#import "ViewController.h"
+#import "QRViewController.h"
 #import "UIView+MGLConstaint.h"
 #import "MGLScannerQRView.h"
 #import "MGLScannerQR.h"
 
 #import <AVFoundation/AVFoundation.h>
 
-@interface ViewController ()
+@interface QRViewController ()
 @property (strong, nonatomic) MGLScannerQR *scanner;
 @property (weak, nonatomic) UIView *videoView;
 @property (weak, nonatomic) MGLScannerQRView *anchorView;
@@ -21,14 +21,14 @@
 @property (copy, nonatomic) NSString *QRCode;
 @end
 
-@implementation ViewController
+@implementation QRViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     [self creatVideoView];
     self.scanner = [[MGLScannerQR alloc] initStartReadingOnView:self.videoView];
-    ViewController * __weak weakSelf = self;
+    QRViewController * __weak weakSelf = self;
     _scanner.QRMessage = ^(NSString *message){
         [weakSelf finishedScanner:message];
     };
@@ -39,7 +39,8 @@
 }
 // when use layoutcontraint  can  use viewDidLayoutSubviews to place layer.frame
 - (void)viewDidLayoutSubviews{
-    [_scanner adjustLayerWithFrame:self.videoView.bounds];
+    [super viewDidLayoutSubviews];
+    [_scanner adjustLayerWithFrame:self.videoView.bounds clearFrame:(CGRect)_anchorView.frame];
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -79,5 +80,8 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
-
+- (void)dealloc{
+    [_anchorView stopAnimation];
+    [_anchorView removeFromSuperview];
+}
 @end

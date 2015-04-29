@@ -18,7 +18,7 @@
 @implementation MGLScannerQRView
 - (instancetype)initWithDesc:(NSString *)desc withScanner:(BOOL)scanner{
     self = [super initWithFrame:CGRectZero];
-    self.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.2];
+    self.backgroundColor = [UIColor clearColor];
     if (self) {
         [self initStatus];
         self.desc = desc;
@@ -74,20 +74,22 @@
 - (void)initGradientLayer{
     _gradientlayer.frame = CGRectMake(0, -CGRectGetHeight(self.bounds)*0.1, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds)*0.1);
 }
-- (void)performAnimation {
+- (void)performAnimation{
 
     CABasicAnimation *animation;
     animation = [CABasicAnimation animationWithKeyPath:@"position.y"];
     animation.fromValue = @(0);
     animation.toValue = @(CGRectGetHeight(self.bounds));
-    [animation setDuration:1.0];
+    [animation setDuration:1.2];
     [animation setRemovedOnCompletion:YES];
     [animation setFillMode:kCAFillModeForwards];
-    [animation setDelegate:self];
+//    [animation setDelegate:self];
+    [animation setRepeatCount:MAXFLOAT];
     animation.timingFunction = [CAMediaTimingFunction functionWithName:@"easeInEaseOut"];
     [_gradientlayer addAnimation:animation forKey:@"animateGradient"];
 }
 - (void)layoutSubviews{
+    [super layoutSubviews];//这个必须有，ios7
     [self initGradientLayer];
     [self performAnimation];
 }
@@ -98,6 +100,7 @@
 }
 - (void)stopAnimation{
     _isScanner = NO;
+    [_gradientlayer removeAllAnimations];
 }
 ///*
 // Only override drawRect: if you perform custom drawing.
@@ -127,5 +130,19 @@
     CGPathRelease(mutPath);
 }
 //*/
+
+@end
+@interface MGLOverlayView ()
+@property (assign, nonatomic) CGRect frame;
+@end
+@implementation MGLOverlayView
+- (instancetype)initWithView:(UIView *)view{
+    CGRect frame = view.superview ? view.superview.frame : [UIApplication sharedApplication].keyWindow.frame;
+    self = [super initWithFrame:frame];
+    if (self) {
+        
+    }
+    return self;
+}
 
 @end

@@ -233,7 +233,7 @@
 		8EACF28A1AE676F8009CA132 /* DetectQRStillImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EACF2891AE676F8009CA132 /* DetectQRStillImage.m */; };
 		8EE636611AE0EEE1002C51FF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EE636601AE0EEE1002C51FF /* main.m */; };
 		8EE636641AE0EEE1002C51FF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EE636631AE0EEE1002C51FF /* AppDelegate.m */; };
-		8EE636671AE0EEE1002C51FF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EE636661AE0EEE1002C51FF /* ViewController.m */; };
+		8EE636671AE0EEE1002C51FF /* QRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EE636661AE0EEE1002C51FF /* QRViewController.m */; };
 		8EE6366A1AE0EEE1002C51FF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EE636681AE0EEE1002C51FF /* Main.storyboard */; };
 		8EE6366C1AE0EEE1002C51FF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EE6366B1AE0EEE1002C51FF /* Images.xcassets */; };
 		8EE6366F1AE0EEE1002C51FF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8EE6366D1AE0EEE1002C51FF /* LaunchScreen.xib */; };
@@ -722,8 +722,8 @@
 		8EE636601AE0EEE1002C51FF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8EE636621AE0EEE1002C51FF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		8EE636631AE0EEE1002C51FF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		8EE636651AE0EEE1002C51FF /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		8EE636661AE0EEE1002C51FF /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		8EE636651AE0EEE1002C51FF /* QRViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QRViewController.h; sourceTree = "<group>"; };
+		8EE636661AE0EEE1002C51FF /* QRViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QRViewController.m; sourceTree = "<group>"; };
 		8EE636691AE0EEE1002C51FF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8EE6366B1AE0EEE1002C51FF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		8EE6366E1AE0EEE1002C51FF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -1497,8 +1497,8 @@
 				8EE636631AE0EEE1002C51FF /* AppDelegate.m */,
 				8E9AF8001AE4D9A2009A7777 /* HomeViewController.h */,
 				8E9AF8011AE4D9A2009A7777 /* HomeViewController.m */,
-				8EE636651AE0EEE1002C51FF /* ViewController.h */,
-				8EE636661AE0EEE1002C51FF /* ViewController.m */,
+				8EE636651AE0EEE1002C51FF /* QRViewController.h */,
+				8EE636661AE0EEE1002C51FF /* QRViewController.m */,
 				8E9AF7FD1AE49A3D009A7777 /* MGLScannerQRView.h */,
 				8E9AF7FE1AE49A3D009A7777 /* MGLScannerQRView.m */,
 				8EA7164B1AE745D8000FFECE /* MGLScannerQR.h */,
@@ -1767,7 +1767,7 @@
 				8E8954211AEE1780008E979D /* ZXAztecState.m in Sources */,
 				8E89544F1AEE1780008E979D /* ZXWhiteRectangleDetector.m in Sources */,
 				8E89547F1AEE1780008E979D /* ZXDataMatrixSymbolInfo144.m in Sources */,
-				8EE636671AE0EEE1002C51FF /* ViewController.m in Sources */,
+				8EE636671AE0EEE1002C51FF /* QRViewController.m in Sources */,
 				8E8954D61AEE1780008E979D /* ZXPDF417Common.m in Sources */,
 				8E8954C71AEE1780008E979D /* ZXPDF417Codeword.m in Sources */,
 				8E8954291AEE1780008E979D /* ZXAddressBookParsedResult.m in Sources */,

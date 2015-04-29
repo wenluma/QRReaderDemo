@@ -13,3 +13,6 @@
 - (void)stopAnimation;
 @property (copy, nonatomic) NSString *desc;
 @end
+@interface MGLOverlayView : UIView
+- (instancetype)initWithView:(UIView *)view;
+@end
