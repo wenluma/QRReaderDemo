@@ -44,8 +44,8 @@
             AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
             NSError * __autoreleasing lockErr;
             [device lockForConfiguration:&lockErr];
-            if ([device isFocusModeSupported:AVCaptureFocusModeAutoFocus]) {
-                device.focusMode = AVCaptureFocusModeAutoFocus;
+            if ([device isFocusModeSupported:AVCaptureFocusModeContinuousAutoFocus]) {
+                device.focusMode = AVCaptureFocusModeContinuousAutoFocus;
             }
             if ([device isFocusPointOfInterestSupported]){
                 device.focusPointOfInterest = CGPointMake(0.5, 0.5);
@@ -74,16 +74,36 @@
                     [output setMetadataObjectTypes:@[AVMetadataObjectTypeQRCode]];
                 }
                 [self addPreLayerOnView:view];
-                [_session startRunning];
+                // Start session configuration
+//                [_session startRunning];
             }
         }
-       
     }
     
     return self;
 }
+- (void)updateInterestRect:(CGRect )frame{
+//    CGRect frame = CGRectFromString(sFrame);
+    Boolean zero = CGRectEqualToRect(frame, CGRectZero);
+    if (_session.running || zero) {
+        return;
+    }
 
+    [_session beginConfiguration];
+    if (_session.outputs.count > 0) {
+        AVCaptureMetadataOutput *output = _session.outputs.firstObject;
+        output.rectOfInterest = [_previewLayer metadataOutputRectOfInterestForRect:frame];
+    }
+    [_session commitConfiguration];
+    [_session startRunning];
+}
 - (void)adjustLayerWithFrame:(CGRect)frame clearFrame:(CGRect)clearframe{
+    
+    [self updateInterestRect:clearframe];
+    
+    _previewLayer.frame = frame;
+    self.capture.layer.frame = frame;return;
+    
     if (CGRectEqualToRect(frame, CGRectZero) || CGRectEqualToRect(clearframe, CGRectZero)) {
         return;
     }
@@ -99,17 +119,17 @@
     CGFloat y2 = clearframe.origin.y;
     CGFloat width2 = clearframe.size.width;
     
-    CAShapeLayer *mask = [CAShapeLayer layer];
+    CAShapeLayer *windowLayer = [CAShapeLayer layer];
     CGMutablePathRef path = CGPathCreateMutable();
     CGPathAddRect(path, NULL, CGRectMake(x1, y1, widht1, y2));
     CGPathAddRect(path, NULL, CGRectMake(x1, y1, x2-x1, height1));
     CGPathAddRect(path, NULL, CGRectMake(CGRectGetMaxX(clearframe), y1, widht1-width2-x2, height1));
     CGPathAddRect(path, NULL, CGRectMake(x1, CGRectGetMaxY(clearframe), widht1, height1 - CGRectGetMaxY(clearframe)));
-    mask.frame = frame;
-    mask.path = path;
+    windowLayer.frame = frame;
+    windowLayer.path = path;
 
-    [mask setFillColor:[[[UIColor blackColor]  colorWithAlphaComponent:0.4]CGColor]];
-    [_previewLayer addSublayer:mask];
+    [windowLayer setFillColor:[[[UIColor blackColor]  colorWithAlphaComponent:0.4]CGColor]];
+    [_previewLayer addSublayer:windowLayer];
 }
 -(void)stopReading{
     [self cleanUp];

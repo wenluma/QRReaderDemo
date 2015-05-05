@@ -83,7 +83,6 @@
     [animation setDuration:1.2];
     [animation setRemovedOnCompletion:YES];
     [animation setFillMode:kCAFillModeForwards];
-//    [animation setDelegate:self];
     [animation setRepeatCount:MAXFLOAT];
     animation.timingFunction = [CAMediaTimingFunction functionWithName:@"easeInEaseOut"];
     [_gradientlayer addAnimation:animation forKey:@"animateGradient"];
@@ -102,7 +101,6 @@
     _isScanner = NO;
     [_gradientlayer removeAllAnimations];
 }
-///*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
@@ -129,20 +127,52 @@
     CGContextFillPath(context);
     CGPathRelease(mutPath);
 }
-//*/
 
 @end
 @interface MGLOverlayView ()
-@property (assign, nonatomic) CGRect frame;
+@property (weak, nonatomic) UIView *clearView;
 @end
 @implementation MGLOverlayView
+
 - (instancetype)initWithView:(UIView *)view{
-    CGRect frame = view.superview ? view.superview.frame : [UIApplication sharedApplication].keyWindow.frame;
-    self = [super initWithFrame:frame];
+    self = [super initWithFrame:CGRectZero];
     if (self) {
-        
+        self.backgroundColor = [UIColor clearColor];
+        [view.superview addSubview:self];
+        [self setEdge:UIEdgeInsetsZero];
+        _clearView = view;
     }
     return self;
+}
+
+- (void)layoutSubviews{
+    [self setNeedsDisplay];
+}
+
+- (void)drawRect:(CGRect)rect{
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    CGRect frame = rect;
+    CGRect clearframe = _clearView.frame;
+    
+    CGFloat x1 = frame.origin.x;
+    CGFloat x2 = clearframe.origin.x;
+    CGFloat widht1 = frame.size.width;
+    CGFloat height1 = frame.size.height;
+    
+    CGFloat y1 = frame.origin.y;
+    CGFloat y2 = clearframe.origin.y;
+    CGFloat width2 = clearframe.size.width;
+    
+    CGMutablePathRef path = CGPathCreateMutable();
+    CGPathAddRect(path, NULL, CGRectMake(x1, y1, widht1, y2));
+    CGPathAddRect(path, NULL, CGRectMake(x1, y1, x2-x1, height1));
+    CGPathAddRect(path, NULL, CGRectMake(CGRectGetMaxX(clearframe), y1, widht1-width2-x2, height1));
+    CGPathAddRect(path, NULL, CGRectMake(x1, CGRectGetMaxY(clearframe), widht1, height1 - CGRectGetMaxY(clearframe)));
+    CGContextSetFillColorWithColor(ctx, [[[UIColor blackColor]  colorWithAlphaComponent:0.4] CGColor]);
+    CGContextAddPath(ctx, path);
+    CGContextFillPath(ctx);
+    
+    CGPathRelease(path);
 }
 
 @end

@@ -39,7 +39,7 @@
 }
 // when use layoutcontraint  can  use viewDidLayoutSubviews to place layer.frame
 - (void)viewDidLayoutSubviews{
-    [super viewDidLayoutSubviews];
+//    [super viewDidLayoutSubviews];
     [_scanner adjustLayerWithFrame:self.videoView.bounds clearFrame:(CGRect)_anchorView.frame];
 }
 - (void)viewWillAppear:(BOOL)animated{
@@ -51,7 +51,7 @@
     UIView *videoView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.view addSubview:videoView];
     videoView.translatesAutoresizingMaskIntoConstraints = NO;
-    videoView.backgroundColor = [UIColor darkGrayColor];
+    videoView.backgroundColor = [UIColor clearColor];
     
     [videoView setEdge:UIEdgeInsetsMake(0, 0, 0, 0)];
     self.videoView = videoView;
@@ -76,6 +76,7 @@
     [anchorView setCenterX:0];
     
     _anchorView = anchorView;
+    MGLOverlayView * overlay= [[MGLOverlayView alloc] initWithView:_anchorView];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
