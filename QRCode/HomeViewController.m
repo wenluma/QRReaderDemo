@@ -20,6 +20,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self performSelector:@selector(dosomething:) withObject:nil afterDelay:15];
     UILabel * __weak lab = _showMessage;
     lab.numberOfLines = 0;
     _QRCode = ^(NSString *info){
